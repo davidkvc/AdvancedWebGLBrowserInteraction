@@ -20,10 +20,13 @@ public class UnityBridge : MonoBehaviour {
 
     static class Lib
     {
+        // We can declare multiple RegisterCallback overloads each taking different callback type 
+        // but all of them will point to the same jslib function
         [DllImport("__Internal")]
         public static extern void RegisterCallback(Action<IntPtr, int, bool, float> callback, string callbackName, string callbackSignature);
         [DllImport("__Internal")]
         public static extern void RegisterCallback(Action<int> callback, string callbackName, string callbackSignature);
+        
         [DllImport("__Internal")]
         public static extern void RegisterTextureRetrieveCallback(Action<int, IntPtr> callback);
         [DllImport("__Internal")]
@@ -86,7 +89,7 @@ public class UnityBridge : MonoBehaviour {
         }
         if (!areParamsValid)
         {
-            throw new ArgumentException("Only bool|string|int parameters are allowed", "callback");
+            throw new ArgumentException("Only bool|IntPtr|int|float|double parameters are allowed", "callback");
         }
         if (!hasRequiredAttribute)
         {
